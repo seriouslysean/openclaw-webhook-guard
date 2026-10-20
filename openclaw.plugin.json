@@ -1,0 +1,23 @@
+{
+  "id": "webhook-guard",
+  "name": "Webhook Guard",
+  "description": "Blocks agents' scheduled jobs from posting to a URL (webhook delivery). Deterministic; blocks scheduling calls it can't read.",
+  "activation": {
+    "onStartup": true
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "allowAgents": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": "Agent ids allowed to create or change jobs that post to a URL. Empty (the default) means every agent is checked.",
+        "default": []
+      }
+    }
+  }
+}
