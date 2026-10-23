@@ -1,0 +1,12 @@
+name: PR body
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  pr-body:
+    uses: seriouslysean/.github/.github/workflows/pr-body.yml@b3f9e7d15aa6414ca7472081ef010ef53dce6db5 # 4-pr-body-check
