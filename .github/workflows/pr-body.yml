@@ -9,4 +9,4 @@ permissions:
 
 jobs:
   pr-body:
-    uses: seriouslysean/.github/.github/workflows/pr-body.yml@bbe22e3b94170cc50fa84cc78b764e95971562d6 # 4-pr-body-check
+    uses: seriouslysean/.github/.github/workflows/pr-body.yml@a1141a1a330ecf53bc22091fbb6893eacb33d5fb # main
