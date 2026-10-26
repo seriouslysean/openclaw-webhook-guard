@@ -3,7 +3,7 @@
 ## Checked
 
 - **Unit tests** (`npm test`) cover every webhook route, the alias, chat delivery and reads passing, unreadable parameters, unknown actions, exemptions and calls with no agent id, and the leak scan.
-- **Typecheck** against the OpenClaw 2026.10.4 plugin SDK, in CI.
+- **Typecheck** against the OpenClaw 2026.10.5 plugin SDK (the `openclaw` devDependency), in CI. `openclaw.build` in `package.json` names that same version; `peerDependencies` and `openclaw.compat` keep the 2026.10.4 floor that was checked on a live gateway.
 
 ## Checked on a live gateway (OpenClaw 2026.10.4)
 
