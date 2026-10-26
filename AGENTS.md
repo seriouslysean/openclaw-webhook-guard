@@ -2,6 +2,18 @@
 
 Rules for working in this repo.
 
+## Setup and checks
+
+- Install: `npm ci --ignore-scripts --no-audit --no-fund` (Node 24 or later).
+- Before a PR: `npm run lint && npm run typecheck && npm test`. CI runs the same three scripts as separate jobs.
+
+## Where things live
+
+- `src/` holds the plugin (`rules.ts` the rules, `guard.ts` the guard, `index.ts` the entry), `test/` its tests.
+- `docs/how-it-works.md` explains the design, `docs/verification.md` lists what is unverified, `docs/CHANGELOG.md` the releases.
+
+## Rules
+
 1. Block only what the plugin is for: a scheduling call with a webhook route, or one it can't read. Never block other tools, and never rewrite a call's parameters.
 2. Fail closed on scheduling calls: unreadable parameters and unknown actions block. Update the action list from the OpenClaw source when a new version adds one.
 3. Keep one rule per plugin. A different guard is a different plugin.
