@@ -4,7 +4,7 @@
 
 - **Unit tests** (`npm test`) cover every webhook route, the alias, chat delivery and reads passing, unreadable parameters, unknown actions, exemptions and calls with no agent id, and the leak scan.
 - **Typecheck** against the plugin SDK of the `openclaw` devDependency (2026.10.5), in CI. Dependabot moves it ahead of the floor.
-- **Version metadata**: `openclaw.build`, `openclaw.compat` and `peerDependencies` all name 2026.10.4, the version last checked on a live gateway. `test/package.test.ts` fails if they disagree. When the plugin is checked on a newer gateway, all of them move to it together.
+- **Version metadata**: `openclaw.build`, `openclaw.compat` and `peerDependencies` all name 2026.10.4, the version last checked on a live gateway. When the plugin is checked on a newer gateway, all of them move to it together.
 
 ## Checked on a live gateway (OpenClaw 2026.10.4)
 
