@@ -17,6 +17,7 @@
 - `update` with a webhook route on an existing job (unit tests only).
 - Code Mode calls (from the docs, not run).
 - A `to` URL without `//`, and a dotted `...to` key on `update`, reaching the host as a webhook (read from the 2026.10.5 build, unit tests only).
+- A webhook route added by another plugin's `params` rewrite isn't seen (OpenClaw 2026.10.5 docs and source, not run).
 
 ## Checking it on your gateway
 
