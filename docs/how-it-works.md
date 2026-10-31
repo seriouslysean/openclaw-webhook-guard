@@ -22,7 +22,7 @@ The scheduling tool is `cron`, with the alias `automations`. Its delivery schema
 The schemas allow extra properties, and the tool also accepts job fields at the top level of the call. So instead of checking those four paths, the plugin scans the whole parameter tree and blocks when it finds:
 - a `mode` equal to `webhook` (ignoring case and surrounding space);
 - a set value (not `null`, `false`, `0` or empty) under any key whose name contains `webhook`;
-- a `to` that holds a URL (`://`).
+- a `to` that holds a URL: anything with `://`, or anything `URL.parse` reads as `http:` or `https:`, such as `https:host/path`. The host accepts that form as a webhook URL (`normalizeHttpWebhookUrl`, OpenClaw 2026.10.5).
 
 The tool also accepts flat dotted keys beside the action arguments, such as `'delivery.mode': 'webhook'` or `'job.delivery.to'`, and nests them into the job (`nestDottedCronKey` in the built cron tool, OpenClaw 2026.10.5). For `mode` and `to`, a key counts by its last dotted segment, after trimming it and stripping surrounding quotes, so those keys are caught too.
 
@@ -42,3 +42,4 @@ A URL elsewhere, such as in a reminder's text, isn't a route and passes. Neither
 
 - Jobs created outside an agent's tools: the `openclaw cron` CLI, the Control UI and Gateway RPC callers. To catch those as well, check `openclaw cron list --json --all` for webhook routes from outside the gateway.
 - Existing jobs. The plugin acts when a job is created or changed, not on jobs already stored.
+- Parameters another plugin rewrites. Each `before_tool_call` handler gets a copy of the original event, not earlier handlers' returned `params`, and the tool runs with the merged result without a second check (`plugins/hooks/tool-policy.md`; `runBeforeToolCall` in `dist/hooks-B4X8NX3v.mjs`, OpenClaw 2026.10.5). Trusted tool policies run before ordinary hooks, so they don't see the rewrite either. Don't load a plugin that rewrites `cron` or `automations` parameters alongside this one.
