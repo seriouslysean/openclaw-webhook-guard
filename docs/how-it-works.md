@@ -36,3 +36,4 @@ A URL elsewhere, such as in a reminder's text, isn't a route and passes.
 
 - Jobs created outside an agent's tools: the `openclaw cron` CLI, the Control UI and Gateway RPC callers. To catch those as well, check `openclaw cron list --json --all` for webhook routes from outside the gateway.
 - Existing jobs. The plugin acts when a job is created or changed, not on jobs already stored.
+- Parameters another plugin rewrites. Each `before_tool_call` handler gets a copy of the original event, not earlier handlers' returned `params`, and the tool runs with the merged result without a second check (`plugins/hooks/tool-policy.md`; `runBeforeToolCall` in `dist/hooks-B4X8NX3v.mjs`, OpenClaw 2026.10.5). Trusted tool policies run before ordinary hooks, so they don't see the rewrite either. Don't load a plugin that rewrites `cron` or `automations` parameters alongside this one.
