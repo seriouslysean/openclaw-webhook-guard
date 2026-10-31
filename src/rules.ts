@@ -26,13 +26,30 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 /**
+ * The host nests a dotted key such as `delivery.failureDestination.to` after trimming it, stripping one pair of
+ * quotes and trimming each segment (`nestDottedCronKey` in the built cron tool, 2026.10.5).
+ */
+function isToKey(key: string): boolean {
+  return key.split('.').at(-1)?.trim().replaceAll(/^["']|["']$/g, '').trim() === 'to';
+}
+
+/**
+ * The host accepts any value `URL.parse` reads as http(s), so `https:host` counts without `//`
+ * (`normalizeHttpWebhookUrl` in the built cron tool, 2026.10.5).
+ */
+function isUrl(value: string): boolean {
+  const protocol = URL.parse(value.trim())?.protocol;
+  return value.includes('://') || protocol === 'http:' || protocol === 'https:';
+}
+
+/**
  * True when a value routes output to a URL. The routes are `delivery.mode`, `failureDestination.mode`,
  * `completionDestination` and `failureAlert.mode` set to "webhook", or a `to` that holds a URL. The whole tree is
  * scanned, so nested and flattened job fields are caught alike, and so are keys added under the same names later.
  */
 export function hasWebhookRoute(value: unknown, key = ''): boolean {
   if (typeof value === 'string') {
-    return value.trim().toLowerCase() === 'webhook' || (key === 'to' && value.includes('://'));
+    return value.trim().toLowerCase() === 'webhook' || (isToKey(key) && isUrl(value));
   }
   if (Array.isArray(value)) {
     return value.some((item) => hasWebhookRoute(item));

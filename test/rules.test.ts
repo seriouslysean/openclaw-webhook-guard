@@ -13,6 +13,10 @@ test('every webhook route is blocked, on add and update, nested or flattened', (
     { action: 'add', job: { delivery: { mode: 'announce', to: 'https://e.x/collect' } } },
     { action: 'add', job: { webhookUrl: 'https://e.x' } },
     { action: 'add', jobs: [{ delivery: { mode: 'webhook' } }] },
+    { action: 'add', job: { delivery: { failureDestination: { to: 'https:e.x/h' } } } },
+    { action: 'add', job: { delivery: { failureDestination: { to: ' HTTP:e.x' } } } },
+    { action: 'update', jobId: 'j', 'delivery.failureDestination.to': 'https://e.x' },
+    { action: 'update', jobId: 'j', ' "job.delivery.to" ': 'https:e.x' },
   ];
   for (const params of routes) {
     assert.equal(schedulingBlockReason('cron', params), WEBHOOK_REASON, JSON.stringify(params));
@@ -29,6 +33,7 @@ test('chat delivery, reads and removals still work, and a URL in the job text is
     { action: 'add', job: { payload: { kind: 'agentTurn', message: 'read https://e.x later' } } },
     { action: 'update', jobId: 'j', job: { delivery: { failureDestination: null } } },
     { action: 'update', jobId: 'j', job: { webhookUrl: null } },
+    { action: 'update', jobId: 'j', 'delivery.to': 'room:x' },
     { action: 'list' },
     { action: 'remove', jobId: 'j' },
     { action: 'run', jobId: 'j' },

@@ -16,6 +16,7 @@
 - Chat delivery of a real reminder created by an agent while the plugin is loaded.
 - `update` with a webhook route on an existing job (unit tests only).
 - Code Mode calls (from the docs, not run).
+- A `to` URL without `//`, and a dotted `...to` key on `update`, reaching the host as a webhook (read from the 2026.10.5 build, unit tests only).
 
 ## Checking it on your gateway
 
