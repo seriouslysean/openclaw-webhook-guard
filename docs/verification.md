@@ -16,6 +16,7 @@
 - Chat delivery of a real reminder created by an agent while the plugin is loaded.
 - `update` with a webhook route on an existing job (unit tests only).
 - Code Mode calls (from the docs, not run).
+- `allowAgents` with an id in another case than the agent's, such as `Ops` for `ops` (source and unit tests only).
 
 ## Checking it on your gateway
 

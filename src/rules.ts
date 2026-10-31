@@ -29,16 +29,17 @@ function isRecord(value: unknown): value is Record<string, unknown> {
  * True when a value routes output to a URL. The routes are `delivery.mode`, `failureDestination.mode`,
  * `completionDestination` and `failureAlert.mode` set to "webhook", or a `to` that holds a URL. The whole tree is
  * scanned, so nested and flattened job fields are caught alike, and so are keys added under the same names later.
+ * "webhook" counts only as a `mode`, so a job id or name that says webhook is not a route.
  */
 export function hasWebhookRoute(value: unknown, key = ''): boolean {
   if (typeof value === 'string') {
-    return value.trim().toLowerCase() === 'webhook' || (key === 'to' && value.includes('://'));
+    return (key === 'mode' && value.trim().toLowerCase() === 'webhook') || (key === 'to' && value.includes('://'));
   }
   if (Array.isArray(value)) {
     return value.some((item) => hasWebhookRoute(item));
   }
   if (isRecord(value)) {
-    return Object.entries(value).some(([k, v]) => (/webhook/i.test(k) && v != null) || hasWebhookRoute(v, k));
+    return Object.entries(value).some(([k, v]) => (/webhook/i.test(k) && Boolean(v)) || hasWebhookRoute(v, k));
   }
   return false;
 }

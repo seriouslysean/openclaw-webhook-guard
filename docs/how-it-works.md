@@ -20,17 +20,21 @@ The scheduling tool is `cron`, with the alias `automations`. Its delivery schema
 | `failureAlert.mode` | `"webhook"` |
 
 The schemas allow extra properties, and the tool also accepts job fields at the top level of the call. So instead of checking those four paths, the plugin scans the whole parameter tree and blocks when it finds:
-- any string value equal to `webhook` (ignoring case and surrounding space);
-- a non-null value under any key whose name contains `webhook`;
+- a `mode` equal to `webhook` (ignoring case and surrounding space);
+- a set value (not `null`, `false`, `0` or empty) under any key whose name contains `webhook`;
 - a `to` that holds a URL (`://`).
 
-A URL elsewhere, such as in a reminder's text, isn't a route and passes.
+A URL elsewhere, such as in a reminder's text, isn't a route and passes. Neither is the word `webhook` as a job id or name, or a key such as `webhookEnabled: false`.
 
 ## Failing closed
 
 - Parameters that aren't an object are blocked.
 - An `action` outside the list the scheduling tool had in 2026.10.4 (`status`, `list`, `get`, `add`, `update`, `remove`, `run`, `runs`, `next_check`, `wake`) is blocked. A new action in a later version stays blocked until the list in `src/rules.ts` is updated.
 - A call with no agent id is checked. OpenClaw documents missing context fields as unproven (`plugins/hooks/tool-policy.md`).
+
+## Exemptions
+
+`allowAgents` ids are compared in the host's canonical form, from `normalizeAgentIdStrict` in `openclaw/plugin-sdk/routing`, which lowercases them. So `Ops` in the config matches the agent id `ops`. An id with no canonical form is dropped, not mapped to the default agent.
 
 ## What it can't see
 
