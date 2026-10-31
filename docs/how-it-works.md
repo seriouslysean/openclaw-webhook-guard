@@ -24,6 +24,8 @@ The schemas allow extra properties, and the tool also accepts job fields at the 
 - a set value (not `null`, `false`, `0` or empty) under any key whose name contains `webhook`;
 - a `to` that holds a URL (`://`).
 
+The tool also accepts flat dotted keys beside the action arguments, such as `'delivery.mode': 'webhook'` or `'job.delivery.to'`, and nests them into the job (`nestDottedCronKey` in the built cron tool, OpenClaw 2026.10.5). For `mode` and `to`, a key counts by its last dotted segment, after trimming it and stripping surrounding quotes, so those keys are caught too.
+
 A URL elsewhere, such as in a reminder's text, isn't a route and passes. Neither is the word `webhook` as a job id or name, or a key such as `webhookEnabled: false`.
 
 ## Failing closed

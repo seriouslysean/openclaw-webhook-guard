@@ -13,6 +13,10 @@ test('every webhook route is blocked, on add and update, nested or flattened', (
     { action: 'add', job: { delivery: { mode: 'announce', to: 'https://e.x/collect' } } },
     { action: 'add', job: { webhookUrl: 'https://e.x' } },
     { action: 'add', jobs: [{ delivery: { mode: 'webhook' } }] },
+    { action: 'add', schedule: { kind: 'every', everyMs: 60000 }, 'delivery.mode': 'webhook' },
+    { action: 'update', jobId: 'j', 'job.delivery.failureDestination.mode': 'webhook' },
+    { action: 'add', ' "failureAlert.mode" ': 'webhook' },
+    { action: 'add', 'delivery.mode': 'announce', 'delivery.to': 'https://e.x/collect' },
   ];
   for (const params of routes) {
     assert.equal(schedulingBlockReason('cron', params), WEBHOOK_REASON, JSON.stringify(params));

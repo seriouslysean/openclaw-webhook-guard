@@ -17,6 +17,7 @@
 - `update` with a webhook route on an existing job (unit tests only).
 - Code Mode calls (from the docs, not run).
 - `allowAgents` with an id in another case than the agent's, such as `Ops` for `ops` (source and unit tests only).
+- Flat dotted keys such as `'delivery.mode': 'webhook'` (OpenClaw 2026.10.5 source and unit tests only).
 
 ## Checking it on your gateway
 
