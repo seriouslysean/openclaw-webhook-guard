@@ -22,7 +22,7 @@ The scheduling tool is `cron`, with the alias `automations`. Its delivery schema
 The schemas allow extra properties, and the tool also accepts job fields at the top level of the call. So instead of checking those four paths, the plugin scans the whole parameter tree and blocks when it finds:
 - any string value equal to `webhook` (ignoring case and surrounding space);
 - a non-null value under any key whose name contains `webhook`;
-- a `to` that holds a URL (`://`).
+- a `to` that holds a URL: anything with `://`, or anything `URL.parse` reads as `http:` or `https:`, such as `https:host/path`. The host accepts that form as a webhook URL (`normalizeHttpWebhookUrl`, 2026.10.5). A dotted key ending in `to`, such as `delivery.failureDestination.to`, counts as `to`, because the host nests dotted keys on `update` (`nestDottedCronKey`, 2026.10.5).
 
 A URL elsewhere, such as in a reminder's text, isn't a route and passes.
 
